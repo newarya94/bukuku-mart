@@ -2,13 +2,14 @@
 
 import 'dart:async';
 
+import 'package:bukuku_mart/service/cookies.dart';
 import 'package:get/get.dart';
 
 import '../../../route/app_route.dart';
 
-
-
 class SplashScreenController extends GetxController {
+  final cookieCustomController = Get.find<CookiesCustomController>();
+
   var a = false.obs;
   var b = false.obs;
   var c = false.obs;
@@ -36,12 +37,17 @@ class SplashScreenController extends GetxController {
     });
     Timer(Duration(milliseconds: 3850), () {
       r.value = true;
-    cekLogin();
+      cekLogin();
     });
   }
 
   Future<void> cekLogin() async {
-    Get.offNamed(ROUTES.PAGELOGIN);
+    final isLogin = await cookieCustomController.checkAutoLogin();
+    print(isLogin);
+    if (isLogin == true) {
+      Get.offNamed(ROUTES.PAGESALESTRANSACTION);
+    } else {
+      Get.offNamed(ROUTES.PAGELOGIN);
+    }
   }
-
 }

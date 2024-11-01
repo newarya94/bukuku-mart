@@ -6,6 +6,8 @@ import 'package:get/get.dart';
 import '../module/Login/binding/login_b.dart';
 import '../module/Login/view/login_v.dart';
 import '../module/Main/main.dart';
+import '../module/SalesTransaction/binding/salestransaction_b.dart';
+import '../module/SalesTransaction/view/salestransaction_v.dart';
 import '../module/Splash/view/splash_v.dart';
 
 class AppPages {
@@ -22,6 +24,11 @@ class AppPages {
       name: ROUTES.PAGELOGIN,
       page: () => const LoginView(),
       binding: LoginBinding(),
+    ),
+    GetPage(
+      name: ROUTES.PAGESALESTRANSACTION,
+      page: () => const SalesTransactionView(),
+      binding: SalesTransactionBinding(),
     ),
   ];
 }

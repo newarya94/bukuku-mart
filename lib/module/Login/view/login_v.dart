@@ -47,14 +47,14 @@ class LoginView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                         Text(
+                        Text(
                           "Bukuku",
                           style: TextStyle(
                             fontSize: 30,
                             color: Colors.grey,
                           ),
                         ),
-                         Text(
+                        Text(
                           "Mart",
                           style: TextStyle(
                             fontSize: 30,
@@ -87,7 +87,6 @@ class LoginView extends StatelessWidget {
                             color: Colors.black,
                           ),
                           prefixIcon: Icon(Icons.person),
-
                           enabledBorder: OutlineInputBorder(
                             borderSide:
                                 BorderSide(color: Colors.grey, width: 0.0),
@@ -104,33 +103,59 @@ class LoginView extends StatelessWidget {
                     Container(
                       padding: EdgeInsets.all(0),
                       margin: EdgeInsets.fromLTRB(0, 20, 0, 10),
-                      child: TextField(
-                        textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.emailAddress,
-                        controller: loginController.passwordController,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          labelText: "Password",
-                          labelStyle: TextStyle(
-                            color: Colors.black,
-                          ),
-                          prefixIcon: Icon(Icons.key),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.grey, width: 0.0),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.red, width: 0.0),
-                          ),
-                        ),
-                        style: TextStyle(
-                            fontSize: 20.0, height: 1.0, color: Colors.black),
-                      ),
+                      child: Obx(() => TextField(
+                            textInputAction: TextInputAction.next,
+                            keyboardType: TextInputType.emailAddress,
+                            controller: loginController.passwordController,
+                            obscureText: loginController.hidden.value,
+                            decoration: InputDecoration(
+                              labelText: "Password",
+                              labelStyle: TextStyle(
+                                color: Colors.black,
+                              ),
+                              prefixIcon: Icon(Icons.key),
+                              suffixIcon: IconButton(
+                                onPressed: () =>
+                                    loginController.hidden.toggle(),
+                                icon: loginController.hidden.isTrue
+                                    ? Icon(Icons.remove_red_eye)
+                                    : Icon(Icons.remove_red_eye_outlined),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.grey, width: 0.0),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.red, width: 0.0),
+                              ),
+                            ),
+                            style: TextStyle(
+                                fontSize: 20.0,
+                                height: 1.0,
+                                color: Colors.black),
+                          )),
                     ),
+                    Obx(() => Container(
+                          // color: Colors.red,
+                          child: CheckboxListTile(
+                            value: loginController.rememberme.value,
+                            onChanged: (value) =>
+                                loginController.rememberme.toggle(),
+                            title: Text(
+                              "Remember me",
+                              style: TextStyle(
+                                fontSize: 18,
+                              ),
+                            ),
+                            controlAffinity: ListTileControlAffinity.leading,
+                            contentPadding: EdgeInsets.all(0),
+                          ),
+                        )),
                     GestureDetector(
                       onTap: () {
                         FocusManager.instance.primaryFocus?.unfocus();
+                        loginController.submitLogin();
                       },
                       child: Container(
                         width: MediaQuery.of(context).size.width / 1,
@@ -159,15 +184,17 @@ class LoginView extends StatelessWidget {
               ),
             ),
           ),
-        
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
               padding: const EdgeInsets.all(20.0),
-              child: Text("This is prototype version", style: TextStyle(
-                fontSize: 20,
-                color: Colors.red,
-              ),),
+              child: Text(
+                "This is prototype version",
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.red,
+                ),
+              ),
             ),
           ),
         ],
