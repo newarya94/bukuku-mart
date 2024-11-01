@@ -4,6 +4,8 @@ import 'dart:async';
 
 import 'package:get/get.dart';
 
+import '../../../route/app_route.dart';
+
 
 
 class SplashScreenController extends GetxController {
@@ -34,7 +36,12 @@ class SplashScreenController extends GetxController {
     });
     Timer(Duration(milliseconds: 3850), () {
       r.value = true;
+    cekLogin();
     });
+  }
+
+  Future<void> cekLogin() async {
+    Get.offNamed(ROUTES.PAGELOGIN);
   }
 
 }
